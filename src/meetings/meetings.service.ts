@@ -6,6 +6,9 @@ import { Meeting } from './entities/meeting.entity';
 
 @Injectable()
 export class MeetingsService {
+  private base62Chars =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
   constructor(
     @Inject('MEETING_REPOSITORY')
     private meetingRepository: Repository<Meeting>,
@@ -29,5 +32,18 @@ export class MeetingsService {
 
   remove(id: number) {
     return `This action removes a #${id} meeting`;
+  }
+
+  encodeBase62(id: number) {
+    let encoded = '';
+
+    while (id > 0) {
+      const remainder = id % 62;
+      const quotient = Math.floor(id / 62);
+      encoded += this.base62Chars[remainder];
+      id = quotient;
+    }
+
+    return encoded;
   }
 }
