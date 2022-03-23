@@ -46,4 +46,19 @@ export class MeetingsService {
 
     return encoded;
   }
+
+  convertUrlKeyToId(urlKey: string) {
+    const chars = [...urlKey];
+
+    let id = 0;
+    let multiplier = 1;
+
+    while (chars.length > 0) {
+      const lastChar = chars.shift();
+      id += this.base62Chars.indexOf(lastChar) * multiplier;
+      multiplier *= 62;
+    }
+
+    return id;
+  }
 }
