@@ -1,16 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { repositoryMockFactory } from '../../test/mocks';
 import { Meeting } from './entities/meeting.entity';
 import { MeetingsService } from './meetings.service';
-
-export type MockType<T> = {
-  [P in keyof T]?: jest.Mock<unknown>;
-};
-
-export const repositoryMockFactory: () => MockType<Repository<any>> = jest.fn(
-  () => ({}),
-);
 
 describe('MeetingsService', () => {
   let service: MeetingsService;
