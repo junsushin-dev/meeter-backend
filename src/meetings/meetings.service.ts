@@ -34,7 +34,7 @@ export class MeetingsService {
     return `This action removes a #${id} meeting`;
   }
 
-  encodeBase62(id: number) {
+  convertIdToUrlKey(id: number) {
     let encoded = '';
 
     while (id > 0) {
