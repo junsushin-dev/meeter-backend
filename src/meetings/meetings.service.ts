@@ -16,7 +16,13 @@ export class MeetingsService {
   ) {}
 
   create(createMeetingDto: CreateMeetingDto) {
-    return 'This action adds a new meeting';
+    const meeting = this.meetingRepository.create(createMeetingDto);
+    this.meetingRepository.save({
+      ...meeting,
+      timeRangeStart: new Date(createMeetingDto.timeRangeStart),
+      timeRangeEnd: new Date(createMeetingDto.timeRangeEnd),
+      meetingUrlKey: this.convertIdToUrlKey(meeting.meetingId),
+    });
   }
 
   findAll() {

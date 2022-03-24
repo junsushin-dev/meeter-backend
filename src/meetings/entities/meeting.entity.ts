@@ -13,8 +13,8 @@ export class Meeting {
   @Column('text')
   meetingDesc: string;
 
-  @Column('text')
-  meetingUrl: string;
+  @Column({ length: 6 })
+  meetingUrlKey: string;
 
   @OneToMany(() => MeetingDate, (meetingDate) => meetingDate.meeting)
   availableDates: Date[];
@@ -25,10 +25,10 @@ export class Meeting {
   @Column('time')
   timeRangeEnd: Date;
 
-  @Column('datetime')
+  @Column({ type: 'datetime', nullable: true })
   scheduleStart: Date;
 
-  @Column('datetime')
+  @Column({ type: 'datetime', nullable: true })
   scheduleEnd: Date;
 
   @OneToMany(() => Timeslot, (timeslot) => timeslot.meeting)
