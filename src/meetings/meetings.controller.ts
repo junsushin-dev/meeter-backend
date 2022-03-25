@@ -27,16 +27,16 @@ export class MeetingsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.meetingsService.findOne(+id);
+    return this.meetingsService.findOne(parseInt(id));
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMeetingDto: UpdateMeetingDto) {
-    return this.meetingsService.update(+id, updateMeetingDto);
+    return this.meetingsService.update(parseInt(id), updateMeetingDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.meetingsService.remove(+id);
+    return this.meetingsService.remove(parseInt(id));
   }
 }
