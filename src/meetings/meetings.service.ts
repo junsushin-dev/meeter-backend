@@ -15,14 +15,15 @@ export class MeetingsService {
     private meetingRepository: Repository<Meeting>,
   ) {}
 
-  create(createMeetingDto: CreateMeetingDto) {
+  async create(createMeetingDto: CreateMeetingDto) {
     const meeting = this.meetingRepository.create(createMeetingDto);
-    this.meetingRepository.save({
+    const savedMeeting = await this.meetingRepository.save({
       ...meeting,
       timeRangeStart: new Date(createMeetingDto.timeRangeStart),
       timeRangeEnd: new Date(createMeetingDto.timeRangeEnd),
-      meetingUrlKey: this.convertIdToUrlKey(meeting.meetingId),
     });
+    const meetingUrlKey = this.convertIdToUrlKey(savedMeeting.meetingId);
+    this.meetingRepository.update(savedMeeting.meetingId, { meetingUrlKey });
   }
 
   findAll() {

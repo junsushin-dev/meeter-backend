@@ -13,7 +13,7 @@ export class Meeting {
   @Column('text')
   meetingDesc: string;
 
-  @Column({ length: 6 })
+  @Column({ length: 6, nullable: true })
   meetingUrlKey: string;
 
   @OneToMany(() => MeetingDate, (meetingDate) => meetingDate.meeting)
