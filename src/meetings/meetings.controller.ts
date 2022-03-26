@@ -25,9 +25,11 @@ export class MeetingsController {
     return this.meetingsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.meetingsService.findOne(parseInt(id));
+  @Get(':meetingUrlKey')
+  findOne(@Param('meetingUrlKey') meetingUrlKey: string) {
+    const meetingId = this.meetingsService.convertUrlKeyToId(meetingUrlKey);
+
+    return this.meetingsService.findOne(meetingId);
   }
 
   @Patch(':id')

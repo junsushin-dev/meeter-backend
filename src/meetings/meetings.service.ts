@@ -30,8 +30,8 @@ export class MeetingsService {
     return `This action returns all meetings`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} meeting`;
+  findOne(meetingId: number) {
+    return this.meetingRepository.findOneBy({ meetingId });
   }
 
   update(id: number, updateMeetingDto: UpdateMeetingDto) {
