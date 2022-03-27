@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
 import { Participant } from './entities/participant.entity';
-import { Timeslot } from './entities/timeslot.entity';
 
 @Injectable()
 export class ParticipantsService {
@@ -14,8 +13,6 @@ export class ParticipantsService {
     private meetingRepository: Repository<Meeting>,
     @InjectRepository(Participant)
     private participantRepository: Repository<Participant>,
-    @InjectRepository(Timeslot)
-    private timeslotRepository: Repository<Timeslot>,
   ) {}
 
   async create(createParticipantDto: CreateParticipantDto, meetingId: number) {
@@ -23,6 +20,7 @@ export class ParticipantsService {
     const meeting = await this.meetingRepository.findOneBy({ meetingId });
 
     participant.meeting = meeting;
+    participant.timeslots = [];
     meeting.participants = [...(meeting.participants ?? []), participant];
 
     await Promise.all([
@@ -41,19 +39,9 @@ export class ParticipantsService {
 
   async update(name: string, updateParticipantDto: UpdateParticipantDto) {
     const participant = await this.participantRepository.findOneBy({ name });
-    const timeslots = updateParticipantDto.timeslots.map((timeslot) =>
-      this.timeslotRepository.create(timeslot),
-    );
+    participant.timeslots = updateParticipantDto.timeslots;
 
-    participant.timeslots = timeslots;
-    timeslots.forEach((timeslot) => {
-      timeslot.participant = participant;
-    });
-
-    await Promise.all([
-      this.participantRepository.save(participant),
-      this.timeslotRepository.save(timeslots),
-    ]);
+    await this.participantRepository.save(participant);
   }
 
   remove(id: number) {

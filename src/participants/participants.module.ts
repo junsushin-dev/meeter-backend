@@ -3,15 +3,11 @@ import { ParticipantsService } from './participants.service';
 import { ParticipantsController } from './participants.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Participant } from './entities/participant.entity';
-import { Timeslot } from './entities/timeslot.entity';
 import { MeetingsModule } from 'src/meetings/meetings.module';
 import { Meeting } from 'src/meetings/entities/meeting.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Meeting, Participant, Timeslot]),
-    MeetingsModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Meeting, Participant]), MeetingsModule],
   controllers: [ParticipantsController],
   providers: [ParticipantsService],
 })
