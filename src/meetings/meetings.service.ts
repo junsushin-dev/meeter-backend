@@ -34,8 +34,8 @@ export class MeetingsService {
     return this.meetingRepository.findOneBy({ meetingId });
   }
 
-  update(id: number, updateMeetingDto: UpdateMeetingDto) {
-    return `This action updates a #${id} meeting`;
+  async update(meetingId: number, updateMeetingDto: UpdateMeetingDto) {
+    await this.meetingRepository.update(meetingId, updateMeetingDto);
   }
 
   remove(id: number) {

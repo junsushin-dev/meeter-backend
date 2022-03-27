@@ -32,9 +32,14 @@ export class MeetingsController {
     return this.meetingsService.findOne(meetingId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMeetingDto: UpdateMeetingDto) {
-    return this.meetingsService.update(parseInt(id), updateMeetingDto);
+  @Patch(':meetingUrlKey')
+  update(
+    @Param('meetingUrlKey') meetingUrlKey: string,
+    @Body() updateMeetingDto: UpdateMeetingDto,
+  ) {
+    const meetingId = this.meetingsService.convertUrlKeyToId(meetingUrlKey);
+
+    return this.meetingsService.update(meetingId, updateMeetingDto);
   }
 
   @Delete(':id')
