@@ -41,10 +41,17 @@ export class ParticipantsController {
 
   @Patch(':name')
   update(
+    @Param('meetingUrlKey') meetingUrlKey: string,
     @Param('name') name: string,
     @Body() updateParticipantDto: UpdateParticipantDto,
   ) {
-    return this.participantsService.update(name, updateParticipantDto);
+    const meetingId = this.meetingsService.convertUrlKeyToId(meetingUrlKey);
+
+    return this.participantsService.update(
+      name,
+      updateParticipantDto,
+      meetingId,
+    );
   }
 
   @Delete(':id')

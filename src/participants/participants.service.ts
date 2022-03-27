@@ -52,8 +52,15 @@ export class ParticipantsService {
     return `This action returns a #${id} participant`;
   }
 
-  async update(name: string, updateParticipantDto: UpdateParticipantDto) {
-    const participant = await this.participantRepository.findOneBy({ name });
+  async update(
+    name: string,
+    updateParticipantDto: UpdateParticipantDto,
+    meetingId: number,
+  ) {
+    const participant = await this.participantRepository.findOneBy({
+      meeting: { meetingId },
+      name,
+    });
     participant.timeslots = updateParticipantDto.timeslots;
 
     await this.participantRepository.save(participant);
