@@ -1,5 +1,11 @@
 import { Meeting } from 'src/meetings/entities/meeting.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
 
 export interface Timeslot {
   timeslotStart: Date;
@@ -7,6 +13,7 @@ export interface Timeslot {
 }
 
 @Entity()
+@Unique(['meeting', 'name'])
 export class Participant {
   @PrimaryGeneratedColumn()
   participantId: number;

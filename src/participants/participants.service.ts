@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Meeting } from 'src/meetings/entities/meeting.entity';
 import { Repository } from 'typeorm';
@@ -16,8 +16,23 @@ export class ParticipantsService {
   ) {}
 
   async create(createParticipantDto: CreateParticipantDto, meetingId: number) {
+    const participantWithSameName = await this.participantRepository.findOneBy({
+      meeting: { meetingId },
+      name: createParticipantDto.name,
+    });
+
+    if (participantWithSameName !== null) {
+      throw new HttpException(
+        'Duplicate participant name',
+        HttpStatus.CONFLICT,
+      );
+    }
+
     const participant = this.participantRepository.create(createParticipantDto);
-    const meeting = await this.meetingRepository.findOneBy({ meetingId });
+    const meeting = await this.meetingRepository.findOne({
+      where: { meetingId },
+      relations: { participants: true },
+    });
 
     participant.meeting = meeting;
     participant.timeslots = [];
