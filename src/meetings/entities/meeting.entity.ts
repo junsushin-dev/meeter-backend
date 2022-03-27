@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { MeetingDate } from './meeting-date.entity';
-import { Timeslot } from './timeslot.entity';
+import { Timeslot } from '../../participants/entities/timeslot.entity';
 
 @Entity()
 export class Meeting {
