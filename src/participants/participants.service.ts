@@ -45,16 +45,12 @@ export class ParticipantsService {
   }
 
   async findAll(meetingId: number) {
-    const participants = await this.participantRepository.findBy({
-      meeting: { meetingId },
+    const participants = await this.participantRepository.find({
+      select: { name: true, timeslots: true },
+      where: { meeting: { meetingId } },
     });
 
-    const participantsToReturn = participants.map((participant) => ({
-      name: participant.name,
-      timeslots: participant.timeslots,
-    }));
-
-    return participantsToReturn;
+    return participants;
   }
 
   findOne(id: number) {
