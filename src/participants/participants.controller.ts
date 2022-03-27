@@ -39,12 +39,12 @@ export class ParticipantsController {
     return this.participantsService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch(':name')
   update(
-    @Param('id') id: string,
+    @Param('name') name: string,
     @Body() updateParticipantDto: UpdateParticipantDto,
   ) {
-    return this.participantsService.update(+id, updateParticipantDto);
+    return this.participantsService.update(name, updateParticipantDto);
   }
 
   @Delete(':id')
