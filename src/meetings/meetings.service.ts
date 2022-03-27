@@ -31,7 +31,12 @@ export class MeetingsService {
   }
 
   findOne(meetingId: number) {
-    return this.meetingRepository.findOneBy({ meetingId });
+    return this.meetingRepository.findOne({
+      where: { meetingId },
+      relations: {
+        participants: true,
+      },
+    });
   }
 
   async update(meetingId: number, updateMeetingDto: UpdateMeetingDto) {
