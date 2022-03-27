@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { MeetingDate } from './meeting-date.entity';
-import { Timeslot } from '../../participants/entities/timeslot.entity';
+import { Participant } from 'src/participants/entities/participant.entity';
 
 @Entity()
 export class Meeting {
@@ -31,6 +31,6 @@ export class Meeting {
   @Column({ type: 'datetime', nullable: true })
   scheduleEnd: Date;
 
-  @OneToMany(() => Timeslot, (timeslot) => timeslot.meeting)
-  timeslots: Timeslot[];
+  @OneToMany(() => Participant, (participant) => participant.meeting)
+  participants: Participant[];
 }

@@ -1,5 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Meeting } from '../../meetings/entities/meeting.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Participant } from './participant.entity';
 
 @Entity()
@@ -13,9 +12,6 @@ export class Timeslot {
   @Column()
   timeslotEnd: Date;
 
-  @OneToMany(() => Meeting, (meeting) => meeting.timeslots)
-  meeting: Meeting;
-
-  @OneToMany(() => Participant, (participant) => participant.timeslots)
+  @ManyToOne(() => Participant, (participant) => participant.timeslots)
   participant: Participant;
 }
