@@ -10,14 +10,23 @@ import {
 import { ParticipantsService } from './participants.service';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
+import { MeetingsService } from 'src/meetings/meetings.service';
 
-@Controller('participants')
+@Controller('meetings/:meetingUrlKey/participants')
 export class ParticipantsController {
-  constructor(private readonly participantsService: ParticipantsService) {}
+  constructor(
+    private readonly participantsService: ParticipantsService,
+    private readonly meetingsService: MeetingsService,
+  ) {}
 
   @Post()
-  create(@Body() createParticipantDto: CreateParticipantDto) {
-    return this.participantsService.create(createParticipantDto);
+  create(
+    @Param('meetingUrlKey') meetingUrlKey: string,
+    @Body() createParticipantDto: CreateParticipantDto,
+  ) {
+    const meetingId = this.meetingsService.convertUrlKeyToId(meetingUrlKey);
+
+    return this.participantsService.create(createParticipantDto, meetingId);
   }
 
   @Get()

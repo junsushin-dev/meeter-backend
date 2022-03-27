@@ -1,11 +1,31 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Meeting } from 'src/meetings/entities/meeting.entity';
+import { Repository } from 'typeorm';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
+import { Participant } from './entities/participant.entity';
 
 @Injectable()
 export class ParticipantsService {
-  create(createParticipantDto: CreateParticipantDto) {
-    return 'This action adds a new participant';
+  constructor(
+    @InjectRepository(Participant)
+    private participantRepository: Repository<Participant>,
+    @InjectRepository(Meeting)
+    private meetingRepository: Repository<Meeting>,
+  ) {}
+
+  async create(createParticipantDto: CreateParticipantDto, meetingId: number) {
+    const participant = this.participantRepository.create(createParticipantDto);
+    const meeting = await this.meetingRepository.findOneBy({ meetingId });
+
+    participant.meeting = meeting;
+    meeting.participants = [...(meeting.participants ?? []), participant];
+
+    await Promise.all([
+      this.participantRepository.save(participant),
+      this.meetingRepository.save(meeting),
+    ]);
   }
 
   findAll() {
