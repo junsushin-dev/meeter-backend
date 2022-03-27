@@ -30,8 +30,10 @@ export class ParticipantsController {
   }
 
   @Get()
-  findAll() {
-    return this.participantsService.findAll();
+  findAll(@Param('meetingUrlKey') meetingUrlKey: string) {
+    const meetingId = this.meetingsService.convertUrlKeyToId(meetingUrlKey);
+
+    return this.participantsService.findAll(meetingId);
   }
 
   @Get(':id')

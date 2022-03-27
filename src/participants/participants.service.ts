@@ -44,8 +44,17 @@ export class ParticipantsService {
     ]);
   }
 
-  findAll() {
-    return `This action returns all participants`;
+  async findAll(meetingId: number) {
+    const participants = await this.participantRepository.findBy({
+      meeting: { meetingId },
+    });
+
+    const participantsToReturn = participants.map((participant) => ({
+      name: participant.name,
+      timeslots: participant.timeslots,
+    }));
+
+    return participantsToReturn;
   }
 
   findOne(id: number) {

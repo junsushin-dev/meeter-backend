@@ -21,7 +21,7 @@ export class Participant {
   @Column()
   name: string;
 
-  @ManyToOne(() => Meeting, (meeting) => meeting)
+  @ManyToOne(() => Meeting, (meeting) => meeting.participants)
   meeting: Meeting;
 
   @Column({ type: 'json' })
