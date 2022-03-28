@@ -16,8 +16,12 @@ export class MeetingsController {
   constructor(private readonly meetingsService: MeetingsService) {}
 
   @Post()
-  create(@Body() createMeetingDto: CreateMeetingDto) {
-    return this.meetingsService.create(createMeetingDto);
+  async create(@Body() createMeetingDto: CreateMeetingDto) {
+    const meetingUrlKey = await this.meetingsService.create(createMeetingDto);
+
+    return {
+      meetingUrlKey,
+    };
   }
 
   @Get()

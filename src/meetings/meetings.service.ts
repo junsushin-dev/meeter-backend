@@ -22,8 +22,11 @@ export class MeetingsService {
       timeRangeStart: new Date(createMeetingDto.timeRangeStart),
       timeRangeEnd: new Date(createMeetingDto.timeRangeEnd),
     });
+
     const meetingUrlKey = this.convertIdToUrlKey(savedMeeting.meetingId);
     this.meetingRepository.update(savedMeeting.meetingId, { meetingUrlKey });
+
+    return meetingUrlKey;
   }
 
   findAll() {
