@@ -6,6 +6,7 @@ import { Meeting } from './entities/meeting.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Meeting])],
+  exports: [MeetingsService],
   controllers: [MeetingsController],
   providers: [MeetingsService],
 })
