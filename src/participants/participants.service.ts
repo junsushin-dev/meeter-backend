@@ -66,6 +66,11 @@ export class ParticipantsService {
       meeting: { meetingId },
       name,
     });
+
+    if (participant === null) {
+      throw new HttpException('Participant not found', HttpStatus.NOT_FOUND);
+    }
+
     participant.timeslots = updateParticipantDto.timeslots;
 
     await this.participantRepository.save(participant);
